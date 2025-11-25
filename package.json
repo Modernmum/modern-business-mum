@@ -1,0 +1,35 @@
+{
+  "name": "zero-to-legacy-engine",
+  "version": "1.0.0",
+  "description": "Autonomous AI wealth engine that creates and sells Notion templates automatically",
+  "type": "module",
+  "main": "run-cycle.js",
+  "scripts": {
+    "start": "node run-cycle.js",
+    "scout": "node agents/scout.js",
+    "creator": "node agents/creator.js",
+    "executor": "node agents/executor.js",
+    "deliver": "node delivery-server.js"
+  },
+  "keywords": [
+    "ai",
+    "automation",
+    "notion",
+    "templates",
+    "wealth-engine"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@supabase/supabase-js": "^2.45.4",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "resend": "^6.5.2",
+    "stripe": "^20.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^48.10.14"
+  }
+}

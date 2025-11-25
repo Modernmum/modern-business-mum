@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "name": "modern-business-mum",
+  "builds": [
+    {
+      "src": "public-server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "public-server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
