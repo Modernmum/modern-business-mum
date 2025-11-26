@@ -28,6 +28,10 @@
     "express": "^5.1.0",
     "googleapis": "^166.0.0",
     "node-fetch": "^3.3.2",
+    "open": "^11.0.0",
+    "puppeteer": "^24.31.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "resend": "^6.5.2",
     "sharp": "^0.34.5",
     "stripe": "^20.0.0"

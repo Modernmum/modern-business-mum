@@ -93,7 +93,7 @@ ${script.timestamps.join('\n')}
  * and create a placeholder system. You can integrate with video generation APIs later.
  */
 const uploadToYouTube = async (product, script, buyLink, videoFilePath) => {
-  if (!process.env.YOUTUBE_API_KEY) {
+  if (!process.env.YOUTUBE_CLIENT_ID || !process.env.YOUTUBE_CLIENT_SECRET || !process.env.YOUTUBE_REFRESH_TOKEN) {
     console.log('  ⚠️  YouTube API not configured');
     return { success: false, reason: 'no_api_key' };
   }

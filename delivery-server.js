@@ -10,6 +10,7 @@ import Stripe from 'stripe';
 import { Resend } from 'resend';
 import dotenv from 'dotenv';
 import { getProducts, createTransaction } from './lib/database.js';
+import { sendWelcomeEmail, sendUpsellEmail } from './agents/email-marketer.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -80,6 +81,28 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) =
       });
 
       console.log(`✅ Template delivered to ${customerEmail}`);
+
+      // Send welcome email with AI-generated content
+      const downloadLink = `https://modernbusinessmum.com`;
+      await sendWelcomeEmail(customerEmail, product.title, downloadLink);
+      console.log(`📧 Welcome email sent to ${customerEmail}`);
+
+      // Schedule upsell email for 3 days later
+      setTimeout(async () => {
+        try {
+          // Get related products (same niche, different title)
+          const relatedProducts = products
+            .filter(p => p.niche === product.niche && p.id !== product.id)
+            .slice(0, 3);
+
+          if (relatedProducts.length > 0) {
+            await sendUpsellEmail(customerEmail, product, relatedProducts);
+            console.log(`📧 Upsell email sent to ${customerEmail}`);
+          }
+        } catch (error) {
+          console.error('Error sending upsell email:', error);
+        }
+      }, 3 * 24 * 60 * 60 * 1000); // 3 days
 
     } catch (error) {
       console.error('Error processing webhook:', error);
