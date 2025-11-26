@@ -9,6 +9,9 @@ import dotenv from 'dotenv';
 import { runScout, getScoutStatus } from './agents/scout.js';
 import { runCreator, getCreatorStatus } from './agents/creator.js';
 import { runExecutor, getExecutorStatus } from './agents/executor.js';
+import { runPromoter } from './agents/promoter.js';
+import { runPinterestPoster } from './agents/pinterest-poster.js';
+import { runYouTubePublisher } from './agents/youtube-publisher.js';
 import { testConnection as testDbConnection, getSystemStats } from './lib/database.js';
 import { testConnection as testAiConnection } from './lib/ai.js';
 import { CONFIG } from './config/settings.js';
@@ -129,6 +132,9 @@ const runCycle = async () => {
     scout: null,
     creator: null,
     executor: null,
+    promoter: null,
+    pinterest: null,
+    youtube: null,
     errors: [],
   };
 
@@ -156,6 +162,30 @@ const runCycle = async () => {
     results.errors.push({ agent: 'executor', error: error.message });
   }
 
+  // Run Promoter Agent
+  try {
+    results.promoter = await runPromoter();
+  } catch (error) {
+    console.error('❌ Promoter Agent failed:', error.message);
+    results.errors.push({ agent: 'promoter', error: error.message });
+  }
+
+  // Run Pinterest Poster Agent
+  try {
+    results.pinterest = await runPinterestPoster();
+  } catch (error) {
+    console.error('❌ Pinterest Poster Agent failed:', error.message);
+    results.errors.push({ agent: 'pinterest', error: error.message });
+  }
+
+  // Run YouTube Publisher Agent
+  try {
+    results.youtube = await runYouTubePublisher();
+  } catch (error) {
+    console.error('❌ YouTube Publisher Agent failed:', error.message);
+    results.errors.push({ agent: 'youtube', error: error.message });
+  }
+
   const cycleTime = ((Date.now() - cycleStart) / 1000).toFixed(2);
 
   // Print cycle summary
@@ -169,6 +199,10 @@ const runCycle = async () => {
   console.log(`  Opportunities Found:   ${results.scout?.discovered || 0}`);
   console.log(`  Products Created:      ${results.creator?.created || 0}`);
   console.log(`  Products Listed:       ${results.executor?.listed || 0}`);
+  console.log(`  Promotions Generated:  ${results.promoter?.promoted || 0}`);
+  console.log(`  Pinterest Pins:        ${results.pinterest?.pinned || 0}`);
+  console.log(`  YouTube Videos:        ${results.youtube?.published || 0}`);
+  console.log(`  YouTube Scripts:       ${results.youtube?.scripts_saved || 0}`);
   console.log(`  Errors:                ${results.errors.length}`);
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
