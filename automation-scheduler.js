@@ -7,6 +7,7 @@
 
 import cron from 'node-cron';
 import { runFiverrAutomation } from './agents/fiverr-automation.js';
+import { runMessageResponder } from './agents/fiverr-message-responder.js';
 import { runSocialMediaCampaign } from './agents/social-media-poster.js';
 import dotenv from 'dotenv';
 import { exec } from 'child_process';
@@ -59,6 +60,18 @@ const checkFiverr = async () => {
 };
 
 /**
+ * Check and respond to Fiverr messages
+ */
+const respondToMessages = async () => {
+  console.log('\n⏰ [FIVERR MESSAGES] Checking inbox and responding...\n');
+  try {
+    await runMessageResponder(true); // true = auto-reply mode
+  } catch (error) {
+    console.error('❌ Message responder error:', error.message);
+  }
+};
+
+/**
  * Daily summary
  */
 const dailySummary = async () => {
@@ -74,7 +87,8 @@ const dailySummary = async () => {
 console.log('📅 SCHEDULE:\n');
 console.log('   🔄 Product Creation: 9:00 AM & 9:00 PM daily');
 console.log('   📱 Social Media: 10:00 AM, 2:00 PM, 6:00 PM daily');
-console.log('   💼 Fiverr Check: Every hour');
+console.log('   💼 Fiverr Orders: Every hour');
+console.log('   💬 Fiverr Messages: Every hour (auto-reply)');
 console.log('   📊 Daily Summary: 11:59 PM daily\n');
 
 console.log('🚀 Scheduler is now running...\n');
@@ -87,9 +101,14 @@ console.log('='.repeat(80) + '\n');
 // CRON JOBS
 // ============================================================================
 
-// Check Fiverr every hour
+// Check Fiverr orders every hour
 cron.schedule('0 * * * *', async () => {
   await checkFiverr();
+});
+
+// Respond to Fiverr messages every hour (offset by 30 minutes)
+cron.schedule('30 * * * *', async () => {
+  await respondToMessages();
 });
 
 // Run product creation cycle at 9 AM and 9 PM

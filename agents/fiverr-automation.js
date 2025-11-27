@@ -26,8 +26,11 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const loginToFiverr = async (page) => {
   console.log('🔐 Logging into Fiverr...');
 
-  await page.goto('https://www.fiverr.com/login', { waitUntil: 'networkidle2' });
-  await delay(2000);
+  await page.goto('https://www.fiverr.com/login', {
+    waitUntil: 'domcontentloaded',
+    timeout: 60000
+  });
+  await delay(3000);
 
   // Enter email
   const emailSelectors = [
@@ -78,8 +81,11 @@ const loginToFiverr = async (page) => {
 const checkForNewOrders = async (page) => {
   console.log('📬 Checking for new orders...');
 
-  await page.goto('https://www.fiverr.com/inbox', { waitUntil: 'networkidle2' });
-  await delay(3000);
+  await page.goto('https://www.fiverr.com/inbox', {
+    waitUntil: 'domcontentloaded',
+    timeout: 60000
+  });
+  await delay(5000);
 
   // Look for unread messages or new order notifications
   const orders = await page.evaluate(() => {
