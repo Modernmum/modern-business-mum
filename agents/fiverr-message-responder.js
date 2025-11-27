@@ -213,6 +213,8 @@ Generate a professional, personalized response that:
 
 Keep the response under 150 words. Use a friendly, approachable tone.
 
+IMPORTANT: Always end with "All the best," not just "Best" - this is the correct UK/Australian English sign-off.
+
 Return ONLY the message text, no extra formatting.`;
 
   const response = await generateText(prompt);
