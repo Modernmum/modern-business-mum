@@ -50,7 +50,7 @@ TARGET: [customer profile]
 PRICE: $[amount]
 ANGLE: [marketing angle]`;
 
-  const response = await generateText(prompt);
+  const response = await generateText(prompt, 'text');
 
   // Parse response
   const conceptMatch = response.match(/CONCEPT:\s*(.+)/);
@@ -243,7 +243,8 @@ async function runPrintfulPOD(maxProducts = 3) {
 
       // Find matching Printful product
       const printfulProduct = printfulProducts.find(p =>
-        p.type === productType || p.name.toLowerCase().includes(productType)
+        (p.type && p.type === productType) ||
+        (p.name && p.name.toLowerCase().includes(productType))
       ) || printfulProducts[0];
 
       // Generate design
