@@ -293,6 +293,8 @@ async function runEtsyLister(dryRun = true) {
     console.log(`   Listed: ${listed}`);
     console.log(`   Skipped (quality): ${skipped}\n`);
 
+    return { listed, skipped };
+
   } catch (error) {
     console.error('❌ Error:', error);
 
@@ -302,6 +304,8 @@ async function runEtsyLister(dryRun = true) {
       status: 'error',
       details: { error: error.message }
     });
+
+    return { listed: 0, skipped: 0 };
   }
 }
 

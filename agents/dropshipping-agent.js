@@ -276,6 +276,8 @@ async function runDropshipping(maxProducts = 5) {
     console.log(`   3. Orders will auto-forward to suppliers`);
     console.log(`   4. Track fulfillment on dashboard\n`);
 
+    return { listed };
+
   } catch (error) {
     console.error('❌ Error:', error);
 
@@ -285,6 +287,8 @@ async function runDropshipping(maxProducts = 5) {
       status: 'error',
       details: { error: error.message }
     });
+
+    return { listed: 0 };
   }
 }
 

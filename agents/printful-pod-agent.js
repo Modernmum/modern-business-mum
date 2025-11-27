@@ -275,6 +275,8 @@ async function runPrintfulPOD(maxProducts = 3) {
     console.log(`   Products created: ${created}`);
     console.log(`   Next: Products will auto-fulfill when orders come in\n`);
 
+    return { created };
+
   } catch (error) {
     console.error('❌ Error:', error);
 
@@ -284,6 +286,8 @@ async function runPrintfulPOD(maxProducts = 3) {
       status: 'error',
       details: { error: error.message }
     });
+
+    return { created: 0 };
   }
 }
 

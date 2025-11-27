@@ -12,6 +12,9 @@ import { runExecutor, getExecutorStatus } from './agents/executor.js';
 import { runPromoter } from './agents/promoter.js';
 import { runPinterestPoster } from './agents/pinterest-poster.js';
 import { runYouTubePublisher } from './agents/youtube-publisher.js';
+import { runPrintfulPOD } from './agents/printful-pod-agent.js';
+import { runEtsyLister } from './agents/etsy-lister.js';
+import { runDropshipping } from './agents/dropshipping-agent.js';
 import { testConnection as testDbConnection, getSystemStats } from './lib/database.js';
 import { testConnection as testAiConnection } from './lib/ai.js';
 import { CONFIG } from './config/settings.js';
@@ -135,6 +138,9 @@ const runCycle = async () => {
     promoter: null,
     pinterest: null,
     youtube: null,
+    printful: null,
+    etsy: null,
+    dropshipping: null,
     errors: [],
   };
 
@@ -186,6 +192,30 @@ const runCycle = async () => {
     results.errors.push({ agent: 'youtube', error: error.message });
   }
 
+  // Run Printful POD Agent (quality-limited: max 3 products per cycle)
+  try {
+    results.printful = await runPrintfulPOD(3);
+  } catch (error) {
+    console.error('❌ Printful POD Agent failed:', error.message);
+    results.errors.push({ agent: 'printful', error: error.message });
+  }
+
+  // Run Etsy Lister Agent (quality-limited: max 5 products per cycle)
+  try {
+    results.etsy = await runEtsyLister(true); // dry run mode
+  } catch (error) {
+    console.error('❌ Etsy Lister Agent failed:', error.message);
+    results.errors.push({ agent: 'etsy', error: error.message });
+  }
+
+  // Run Dropshipping Agent (quality-limited: max 5 products per cycle)
+  try {
+    results.dropshipping = await runDropshipping(5);
+  } catch (error) {
+    console.error('❌ Dropshipping Agent failed:', error.message);
+    results.errors.push({ agent: 'dropshipping', error: error.message });
+  }
+
   const cycleTime = ((Date.now() - cycleStart) / 1000).toFixed(2);
 
   // Print cycle summary
@@ -203,6 +233,9 @@ const runCycle = async () => {
   console.log(`  Pinterest Pins:        ${results.pinterest?.pinned || 0}`);
   console.log(`  YouTube Videos:        ${results.youtube?.published || 0}`);
   console.log(`  YouTube Scripts:       ${results.youtube?.scripts_saved || 0}`);
+  console.log(`  Printful POD Created:  ${results.printful?.created || 0}`);
+  console.log(`  Etsy Listings:         ${results.etsy?.listed || 0}`);
+  console.log(`  Dropshipping Listed:   ${results.dropshipping?.listed || 0}`);
   console.log(`  Errors:                ${results.errors.length}`);
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
