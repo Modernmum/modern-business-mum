@@ -3,8 +3,9 @@
  * Posts to Reddit, Facebook, and LinkedIn using browser automation
  */
 
-import { postToRedditWithBrowser, postToFacebookWithBrowser, postToLinkedInWithBrowser } from './puppeteer-poster.js';
-import { getProducts, saveListingToDatabase } from '../lib/database.js';
+import { postToFacebookWithBrowser, postToLinkedInWithBrowser } from './puppeteer-poster.js';
+import { postProductToReddit } from './reddit-api-poster.js';
+import { getProducts, createListing } from '../lib/database.js';
 import { generateText } from '../lib/ai.js';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
@@ -52,60 +53,22 @@ Format as JSON:
 };
 
 /**
- * Post to Reddit
+ * Post to Reddit using API (much more reliable than browser automation)
  */
 const postToReddit = async (product) => {
-  console.log(`\n📝 Creating Reddit post for: ${product.title}`);
+  console.log(`\n📝 Posting to Reddit via API: ${product.title}`);
 
   try {
-    const postContent = await generatePlatformPost('reddit', product);
-
-    // Get Stripe buy link from listings
-    const { data: listings } = await supabase
-      .from('listings')
-      .select('*')
-      .eq('product_id', product.id)
-      .eq('platform', 'stripe')
-      .single();
-
-    const buyLink = listings?.url || '#';
-
-    // Append buy link to content
-    postContent.content += `\n\n[Learn more and get it here](${buyLink})`;
-
-    // Post to relevant subreddits
-    const subreddits = product.niche === 'business'
-      ? ['Notion', 'productivity', 'Entrepreneur']
-      : ['Notion', 'personalfinance', 'FinancialPlanning'];
-
-    const results = [];
-
-    for (const subreddit of subreddits) {
-      console.log(`  Posting to r/${subreddit}...`);
-
-      const result = await postToRedditWithBrowser(subreddit, postContent);
-
-      if (result.success) {
-        await saveListingToDatabase({
-          product_id: product.id,
-          platform: 'reddit',
-          url: result.url || `https://reddit.com/r/${subreddit}`,
-          status: 'published',
-        });
-
-        results.push({ subreddit, success: true, url: result.url });
-      } else {
-        results.push({ subreddit, success: false, error: result.error });
-      }
-
-      // Delay between posts to avoid spam detection
-      await new Promise(resolve => setTimeout(resolve, 30000)); // 30 second delay
-    }
-
+    // Use Reddit API instead of browser automation
+    const results = await postProductToReddit(product);
     return results;
-
   } catch (error) {
     console.error(`  ❌ Error posting to Reddit:`, error.message);
+
+    if (error.message.includes('credentials')) {
+      console.log('\n  ⚠️  Reddit API not configured. See REDDIT-API-SETUP.md');
+    }
+
     return [{ success: false, error: error.message }];
   }
 };
@@ -139,7 +102,7 @@ const postToFacebook = async (product) => {
     const result = await postToFacebookWithBrowser(postContent);
 
     if (result.success) {
-      await saveListingToDatabase({
+      await createListing({
         product_id: product.id,
         platform: 'facebook',
         url: result.url || '#',
@@ -184,7 +147,7 @@ const postToLinkedIn = async (product) => {
     const result = await postToLinkedInWithBrowser(postContent);
 
     if (result.success) {
-      await saveListingToDatabase({
+      await createListing({
         product_id: product.id,
         platform: 'linkedin',
         url: result.url || '#',

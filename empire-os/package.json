@@ -1,0 +1,43 @@
+{
+  "name": "empire-os",
+  "version": "1.0.0",
+  "description": "The Complete Automation Platform - One AI engine running 6+ automated business streams",
+  "type": "module",
+  "main": "empire-scheduler.js",
+  "scripts": {
+    "start": "./START-EMPIRE.sh",
+    "stop": "./STOP-EMPIRE.sh",
+    "test:lead-gen": "node agents/lead-scraper.js 'SaaS' 3",
+    "test:content": "node agents/content-writer.js",
+    "test:cold-email": "node agents/cold-email.js 'CEO' 'SaaS' false",
+    "test:job-board": "node agents/job-board.js 'Software Engineer' 'Remote' 10",
+    "test:social": "node agents/social-manager.js demo-client",
+    "test:seo": "node agents/seo-service.js demo-client"
+  },
+  "keywords": [
+    "automation",
+    "ai",
+    "business",
+    "empire",
+    "saas",
+    "lead-generation",
+    "content-marketing",
+    "cold-email",
+    "job-board",
+    "social-media",
+    "seo"
+  ],
+  "author": "Modern Business Mum",
+  "license": "PROPRIETARY",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@supabase/supabase-js": "^2.47.10",
+    "dotenv": "^16.4.7",
+    "node-cron": "^3.0.3",
+    "puppeteer": "^23.11.1",
+    "resend": "^4.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
