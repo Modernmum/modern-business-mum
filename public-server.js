@@ -43,6 +43,13 @@ app.get('/custom-order', (req, res) => {
 });
 
 // Dashboard is NOT public - it's only accessible locally for system monitoring
+app.get('/dashboard', (req, res) => {
+  res.sendFile(join(__dirname, 'private', 'dashboard.html'));
+});
+
+app.get('/dashboard.html', (req, res) => {
+  res.sendFile(join(__dirname, 'private', 'dashboard.html'));
+});
 
 // API endpoint for products
 app.get('/api/products', async (req, res) => {
@@ -88,5 +95,6 @@ app.listen(PORT, () => {
   console.log(`\n🌐 Public Website Server Running`);
   console.log(`   URL: http://localhost:${PORT}`);
   console.log(`   API: http://localhost:${PORT}/api/products`);
+  console.log(`   Dashboard: http://localhost:${PORT}/dashboard`);
   console.log(`\n✅ Storefront is live!\n`);
 });
