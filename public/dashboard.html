@@ -273,6 +273,62 @@
             font-size: 32px;
             margin-bottom: 10px;
         }
+
+        /* Tabs styling */
+        .tabs-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px 30px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: rgba(102, 126, 234, 0.05);
+            color: #667eea;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -334,52 +390,103 @@
             </div>
         </div>
 
-        <div class="products-section">
-            <h2>💬 Fiverr Messages & Auto-Responses</h2>
-            <table class="products-table">
-                <thead>
-                    <tr>
-                        <th>Buyer</th>
-                        <th>Inquiry</th>
-                        <th>AI Response</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="fiverrTable">
-                    <tr>
-                        <td colspan="5" class="loading">Loading Fiverr activity...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-button active" onclick="switchTab('overview')">
+                    <span class="tab-icon">📊</span> Overview
+                </button>
+                <button class="tab-button" onclick="switchTab('fiverr')">
+                    <span class="tab-icon">💬</span> Fiverr Messages
+                </button>
+                <button class="tab-button" onclick="switchTab('products')">
+                    <span class="tab-icon">📦</span> Products
+                </button>
+                <button class="tab-button" onclick="switchTab('activity')">
+                    <span class="tab-icon">⚡</span> Activity
+                </button>
+            </div>
 
-        <div class="products-section">
-            <h2>📦 Products</h2>
-            <table class="products-table">
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Niche</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Sales</th>
-                        <th>Revenue</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="productsTable">
-                    <tr>
-                        <td colspan="7" class="loading">Loading products...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div id="overview" class="tab-content active">
+                <h2 style="margin-bottom: 20px;">📊 Business Overview</h2>
+                <div style="display: grid; gap: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
+                        <h3 style="color: #333; margin-bottom: 15px;">Quick Stats</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div>
+                                <div style="color: #666; font-size: 14px;">Total Products</div>
+                                <div style="font-size: 24px; font-weight: bold; color: #667eea;" id="overviewProducts">0</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 14px;">Active Listings</div>
+                                <div style="font-size: 24px; font-weight: bold; color: #667eea;" id="overviewListings">0</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 14px;">Total Revenue</div>
+                                <div style="font-size: 24px; font-weight: bold; color: #10b981;" id="overviewRevenue">$0</div>
+                            </div>
+                            <div>
+                                <div style="color: #666; font-size: 14px;">Fiverr Messages</div>
+                                <div style="font-size: 24px; font-weight: bold; color: #667eea;" id="overviewMessages">0</div>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="products-section">
-            <h2>⚡ Recent Activity</h2>
-            <div id="activityFeed">
-                <div class="loading">Loading activity...</div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
+                        <h3 style="color: #333; margin-bottom: 15px;">Latest Activity</h3>
+                        <div id="overviewActivityFeed">
+                            <div class="loading">Loading recent activity...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="fiverr" class="tab-content">
+                <h2 style="margin-bottom: 20px;">💬 Fiverr Messages & Auto-Responses</h2>
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Buyer</th>
+                            <th>Inquiry</th>
+                            <th>AI Response</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fiverrTable">
+                        <tr>
+                            <td colspan="5" class="loading">Loading Fiverr activity...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="products" class="tab-content">
+                <h2 style="margin-bottom: 20px;">📦 Products & Listings</h2>
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Niche</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Sales</th>
+                            <th>Revenue</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTable">
+                        <tr>
+                            <td colspan="7" class="loading">Loading products...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="activity" class="tab-content">
+                <h2 style="margin-bottom: 20px;">⚡ System Activity Logs</h2>
+                <div id="activityFeed">
+                    <div class="loading">Loading activity...</div>
+                </div>
             </div>
         </div>
     </div>
@@ -515,6 +622,40 @@
                     });
                 }
 
+                // Update Overview Tab
+                document.getElementById('overviewProducts').textContent = products.length;
+                document.getElementById('overviewListings').textContent = listingsCount;
+                document.getElementById('overviewRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+                document.getElementById('overviewMessages').textContent = fiverrCount || 0;
+
+                // Update Overview Activity Feed (show latest 5 items)
+                const overviewActivityFeed = document.getElementById('overviewActivityFeed');
+                overviewActivityFeed.innerHTML = '';
+
+                if (!recentLogs || recentLogs.length === 0) {
+                    overviewActivityFeed.innerHTML = '<div class="loading">No recent activity yet.</div>';
+                } else {
+                    const latestLogs = recentLogs.slice(0, 5);
+                    latestLogs.forEach(log => {
+                        const activityItem = document.createElement('div');
+                        activityItem.style.cssText = 'padding: 12px; border-bottom: 1px solid #e5e7eb;';
+
+                        const timeAgo = formatTimeAgo(new Date(log.created_at));
+                        const emoji = getAgentEmoji(log.agent);
+
+                        activityItem.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 18px;">${emoji}</span>
+                                <div style="flex: 1;">
+                                    <strong style="color: #333;">${log.agent}</strong> - ${log.action}
+                                    <div style="color: #999; font-size: 12px;">${timeAgo}</div>
+                                </div>
+                            </div>
+                        `;
+                        overviewActivityFeed.appendChild(activityItem);
+                    });
+                }
+
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('productsTable').innerHTML = '<tr><td colspan="7" class="loading" style="color: red;">Error loading data. Check console.</td></tr>';
@@ -566,6 +707,17 @@
                     .join(' • ');
             }
             return '';
+        }
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Remove active class from all tabs and buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            // Add active class to selected tab and button
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-button').classList.add('active');
         }
 
         // Load data on page load
