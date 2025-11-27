@@ -20,6 +20,51 @@
             background: #f8f9fa;
         }
 
+        .nav-bar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #f0f0f0;
+        }
+
+        .nav-links a.active {
+            background: #667eea;
+            color: white;
+        }
+
         .hero {
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
             color: white;
@@ -231,9 +276,14 @@
     </style>
 </head>
 <body>
-    <nav style="background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-weight: 600; font-size: 18px; color: #1f2937;">Modern Business</div>
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-logo">Zero to Legacy Engine</div>
+            <div class="nav-links">
+                <a href="/" class="active">Storefront</a>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/posts">Posts</a>
+            </div>
         </div>
     </nav>
 
