@@ -222,12 +222,14 @@ async function saveListingToDatabase(product, listing, etsyUrl) {
 /**
  * Main listing function
  */
-async function runEtsyLister(dryRun = true) {
+async function runEtsyLister(dryRun = false) {
   console.log('\n🏪 ETSY LISTING AGENT STARTING...\n');
   console.log('Quality-first approach: Only listing professional, high-value products\n');
 
   if (dryRun) {
     console.log('⚠️  DRY RUN MODE: Will generate listings but not post to Etsy\n');
+  } else {
+    console.log('✅ LIVE MODE: Creating real Etsy listings\n');
   }
 
   try {

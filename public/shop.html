@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Modern Business Mum | Premium Notion Templates</title>
+    <meta name="description" content="Browse our complete collection of premium Notion templates for business and finance. Boost productivity and streamline your workflow with professional templates.">
+    <meta name="keywords" content="notion templates, business templates, finance templates, productivity, notion dashboard, crm, budget tracker">
+    <meta property="og:title" content="Shop - Modern Business Mum Templates">
+    <meta property="og:description" content="Premium Notion templates for entrepreneurs and finance professionals">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Shop - Modern Business Mum Templates">
+    <meta name="twitter:description" content="Premium Notion templates for entrepreneurs and finance professionals">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .nav-bar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #f0f0f0;
+        }
+
+        .nav-links a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .filter-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-buttons {
+            display: inline-flex;
+            gap: 15px;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .filter-btn.active {
+            background: #1f2937;
+            color: white;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .product-count {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .product-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .buy-btn {
+            background: #1f2937;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .buy-btn:hover {
+            background: #111827;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .badge.business {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge.finance {
+            background: #e0e7ff;
+            color: #5b21b6;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+
+            .filter-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-logo">Template Studio</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/shop.html" class="active">Shop</a>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/posts">Posts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Shop All Templates</h1>
+        <p>Discover premium Notion templates designed to transform your business and financial management</p>
+    </div>
+
+    <div class="container">
+        <div class="filter-section">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Templates</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="finance">Finance</button>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title" id="sectionTitle">All Templates</h2>
+            <span class="product-count" id="productCount">Loading...</span>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <div class="loading">Loading products...</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Template Studio. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 14px;">Powered by AI • Made with love</p>
+    </footer>
+
+    <script>
+        // API Configuration
+        const API_BASE = window.location.origin;
+
+        // Icons for different product types
+        const productIcons = {
+            'Client CRM': '👥',
+            'Project Dashboard': '📊',
+            'SOP Library': '📚',
+            'Meeting Notes': '📝',
+            'OKR Tracker': '🎯',
+            'Business Dashboard': '💼',
+            'Content Calendar': '📅',
+            'Budget Tracker': '💵',
+            'Net Worth Dashboard': '💎',
+            'Debt Payoff Planner': '💳',
+            'Investment Portfolio': '📈',
+            'Savings Goal Tracker': '🎯',
+            'Financial Freedom Dashboard': '🏖️'
+        };
+
+        let allProducts = [];
+        let currentFilter = 'all';
+
+        // Load products from API
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/api/products`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allProducts = await response.json();
+                renderProducts();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsGrid').innerHTML = `
+                    <div class="no-results">
+                        <h3>Error loading products</h3>
+                        <p>Please refresh the page to try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Render products based on current filter
+        function renderProducts() {
+            const container = document.getElementById('productsGrid');
+            const filteredProducts = currentFilter === 'all'
+                ? allProducts
+                : allProducts.filter(p => p.niche === currentFilter);
+
+            // Update section title and count
+            const titleMap = {
+                'all': 'All Templates',
+                'business': 'Business Templates',
+                'finance': 'Finance Templates'
+            };
+            document.getElementById('sectionTitle').textContent = titleMap[currentFilter];
+            document.getElementById('productCount').textContent =
+                `${filteredProducts.length} ${filteredProducts.length === 1 ? 'template' : 'templates'}`;
+
+            if (filteredProducts.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>No templates found</h3>
+                        <p>Check back soon for new templates!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredProducts.map(product => {
+                const listing = product.listings && product.listings.length > 0 ? product.listings[0] : null;
+                const icon = getProductIcon(product.title);
+
+                return `
+                    <div class="product-card">
+                        <span class="badge ${product.niche}">${product.niche === 'business' ? 'Business' : 'Finance'}</span>
+                        <div class="product-icon">${icon}</div>
+                        <h3 class="product-title">${escapeHtml(product.title)}</h3>
+                        <p class="product-description">${escapeHtml(product.description)}</p>
+                        <div class="product-footer">
+                            <span class="price">$${product.suggested_price}</span>
+                            ${listing?.url ? `<a href="${escapeHtml(listing.url)}" class="buy-btn" target="_blank" rel="noopener noreferrer">Buy Now</a>` : '<span style="color: #999;">Coming Soon</span>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get product icon based on title
+        function getProductIcon(title) {
+            for (const [key, icon] of Object.entries(productIcons)) {
+                if (title.includes(key)) return icon;
+            }
+            return '📦'; // Default icon
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Set up filter buttons
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active state
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Update filter and re-render
+                    currentFilter = button.dataset.filter;
+                    renderProducts();
+                });
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            setupFilters();
+            loadProducts();
+        });
+    </script>
+</body>
+</html>

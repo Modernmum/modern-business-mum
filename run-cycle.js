@@ -202,7 +202,7 @@ const runCycle = async () => {
 
   // Run Etsy Lister Agent (quality-limited: max 5 products per cycle)
   try {
-    results.etsy = await runEtsyLister(true); // dry run mode
+    results.etsy = await runEtsyLister(false); // LIVE MODE - creating real listings
   } catch (error) {
     console.error('❌ Etsy Lister Agent failed:', error.message);
     results.errors.push({ agent: 'etsy', error: error.message });
