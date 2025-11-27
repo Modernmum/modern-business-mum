@@ -238,6 +238,29 @@
             flex-grow: 1;
             font-size: 16px;
             line-height: 1.7;
+            position: relative;
+        }
+
+        .product-description.collapsed {
+            max-height: 4.8em; /* 3 lines at 1.6 line-height */
+            overflow: hidden;
+        }
+
+        .see-more-btn {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 0 0 0;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            display: block;
+        }
+
+        .see-more-btn:hover {
+            color: #8b5cf6;
         }
 
         .product-footer {
@@ -535,16 +558,19 @@
                 return;
             }
 
-            container.innerHTML = filteredProducts.map(product => {
+            container.innerHTML = filteredProducts.map((product, index) => {
                 const listing = product.listings && product.listings.length > 0 ? product.listings[0] : null;
                 const icon = getProductIcon(product.title);
+                const descriptionId = `desc-${index}`;
+                const shouldTruncate = product.description.length > 150;
 
                 return `
                     <div class="product-card">
                         <span class="badge ${product.niche}">${product.niche === 'business' ? 'Business' : 'Finance'}</span>
                         <div class="product-icon">${icon}</div>
                         <h3 class="product-title">${escapeHtml(product.title)}</h3>
-                        <p class="product-description">${escapeHtml(product.description)}</p>
+                        <p class="product-description ${shouldTruncate ? 'collapsed' : ''}" id="${descriptionId}">${escapeHtml(product.description)}</p>
+                        ${shouldTruncate ? `<button class="see-more-btn" onclick="toggleDescription('${descriptionId}', this)">See more</button>` : ''}
                         <div class="product-footer">
                             <span class="price">$${product.suggested_price}</span>
                             ${listing?.url ? `<a href="${escapeHtml(listing.url)}" class="buy-btn" target="_blank" rel="noopener noreferrer">Buy Now</a>` : '<span style="color: #999;">Coming Soon</span>'}
@@ -567,6 +593,20 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        // Toggle description expansion
+        function toggleDescription(descriptionId, button) {
+            const description = document.getElementById(descriptionId);
+            const isCollapsed = description.classList.contains('collapsed');
+
+            if (isCollapsed) {
+                description.classList.remove('collapsed');
+                button.textContent = 'See less';
+            } else {
+                description.classList.add('collapsed');
+                button.textContent = 'See more';
+            }
         }
 
         // Set up filter buttons
