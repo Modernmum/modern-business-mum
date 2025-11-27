@@ -57,52 +57,111 @@ export const postToRedditWithBrowser = async (subreddit, postData) => {
     // Login - try multiple selectors
     console.log('🔐 Logging in...');
 
-    // Try to find username field with multiple selectors
-    const usernameSelectors = ['#loginUsername', 'input[name="username"]', 'input[type="text"]'];
+    // Wait for any input fields to appear
+    await page.waitForSelector('input', { timeout: 10000 });
+
+    // Try to find username field with comprehensive selectors
+    const usernameSelectors = [
+      '#loginUsername',
+      'input[name="username"]',
+      'input[id*="username"]',
+      'input[id*="Username"]',
+      'input[placeholder*="Username"]',
+      'input[placeholder*="username"]',
+      'input[autocomplete="username"]',
+      'input[type="text"]'
+    ];
+
     let usernameField = null;
     for (const selector of usernameSelectors) {
-      usernameField = await page.$(selector);
-      if (usernameField) {
+      const fields = await page.$$(selector);
+      if (fields.length > 0) {
+        usernameField = fields[0];
         console.log(`   Found username field: ${selector}`);
         break;
       }
     }
 
     if (!usernameField) {
-      throw new Error('Could not find username input field');
+      // Take screenshot for debugging
+      await page.screenshot({ path: 'reddit-login-debug.png' });
+      throw new Error('Could not find username input field - screenshot saved as reddit-login-debug.png');
     }
 
+    await usernameField.click({ clickCount: 3 }); // Select any existing text
     await usernameField.type(process.env.REDDIT_USERNAME, { delay: 100 });
     await delay(1000);
 
     // Try to find password field
-    const passwordSelectors = ['#loginPassword', 'input[name="password"]', 'input[type="password"]'];
+    const passwordSelectors = [
+      '#loginPassword',
+      'input[name="password"]',
+      'input[id*="password"]',
+      'input[id*="Password"]',
+      'input[placeholder*="Password"]',
+      'input[placeholder*="password"]',
+      'input[autocomplete="current-password"]',
+      'input[type="password"]'
+    ];
+
     let passwordField = null;
     for (const selector of passwordSelectors) {
-      passwordField = await page.$(selector);
-      if (passwordField) {
+      const fields = await page.$$(selector);
+      if (fields.length > 0) {
+        passwordField = fields[0];
         console.log(`   Found password field: ${selector}`);
         break;
       }
     }
 
     if (!passwordField) {
-      throw new Error('Could not find password input field');
+      await page.screenshot({ path: 'reddit-login-debug.png' });
+      throw new Error('Could not find password input field - screenshot saved as reddit-login-debug.png');
     }
 
+    await passwordField.click({ clickCount: 3 });
     await passwordField.type(process.env.REDDIT_PASSWORD, { delay: 100 });
     await delay(1000);
 
-    // Click login button
-    const submitButton = await page.$('button[type="submit"]') || await page.$('button:has-text("Log in")');
-    if (submitButton) {
-      await submitButton.click();
+    // Click login button - try multiple approaches
+    let submitButton = null;
+    const submitSelectors = [
+      'button[type="submit"]',
+      'button:has-text("Log In")',
+      'button:has-text("Log in")',
+      'button:has-text("LOGIN")',
+      'button[class*="login"]',
+      'button[class*="submit"]'
+    ];
+
+    for (const selector of submitSelectors) {
+      const buttons = await page.$$(selector);
+      if (buttons.length > 0) {
+        submitButton = buttons[0];
+        console.log(`   Found submit button: ${selector}`);
+        break;
+      }
+    }
+
+    if (!submitButton) {
+      // Try alternative: press Enter key
+      console.log('   Trying Enter key instead...');
+      await page.keyboard.press('Enter');
     } else {
-      throw new Error('Could not find submit button');
+      await submitButton.click();
     }
 
     // Wait for login to complete
-    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
+    console.log('   Waiting for login...');
+    try {
+      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 30000 });
+    } catch (navError) {
+      // Check if we're already logged in by looking for user menu
+      const userMenu = await page.$('[data-testid="user-menu-button"]') || await page.$('[id*="USER_DROPDOWN"]');
+      if (!userMenu) {
+        throw new Error('Login failed - navigation timeout');
+      }
+    }
     console.log('✅ Logged in successfully');
 
     // Navigate to submit page for specific subreddit
