@@ -429,14 +429,25 @@
     </div>
 
     <div class="container">
-        <h2 class="section-title">Business Solutions</h2>
-        <div class="products-grid" id="businessProducts">
-            <div class="loading">Loading business templates...</div>
-        </div>
+        <h2 class="section-title">Explore Our Solutions</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto;">
 
-        <h2 class="section-title">Financial Management</h2>
-        <div class="products-grid" id="financeProducts">
-            <div class="loading">Loading finance templates...</div>
+            <!-- Business Templates Card -->
+            <div style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 16px; padding: 48px; border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(59, 130, 246, 0.4)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.03)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                <div style="font-size: 64px; margin-bottom: 24px;">💼</div>
+                <h3 style="font-size: 32px; font-weight: 700; margin-bottom: 16px; color: #ffffff; letter-spacing: -1px;">Business Templates</h3>
+                <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 32px; font-size: 16px; line-height: 1.7;">Streamline operations with CRM, project management, and workflow templates</p>
+                <a href="/shop?filter=business" style="background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%); color: #ffffff; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 40px rgba(59, 130, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Browse Business</a>
+            </div>
+
+            <!-- Finance Templates Card -->
+            <div style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 16px; padding: 48px; border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(139, 92, 246, 0.4)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.03)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+                <div style="font-size: 64px; margin-bottom: 24px;">📊</div>
+                <h3 style="font-size: 32px; font-weight: 700; margin-bottom: 16px; color: #ffffff; letter-spacing: -1px;">Finance Templates</h3>
+                <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 32px; font-size: 16px; line-height: 1.7;">Master your finances with budgeting, tracking, and investment templates</p>
+                <a href="/shop?filter=finance" style="background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%); color: #ffffff; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 40px rgba(139, 92, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Browse Finance</a>
+            </div>
+
         </div>
     </div>
 
@@ -486,77 +497,8 @@
             }
         }
 
-        async function loadProducts() {
-            try {
-                const response = await fetch(`${API_BASE}/api/products`);
-                const products = await response.json();
-
-                // Separate by niche
-                const businessProducts = products.filter(p => p.niche === 'business');
-                const financeProducts = products.filter(p => p.niche === 'finance');
-
-                renderProducts(businessProducts, 'businessProducts');
-                renderProducts(financeProducts, 'financeProducts');
-
-            } catch (error) {
-                console.error('Error loading products:', error);
-                document.getElementById('businessProducts').innerHTML = '<div class="loading">Error loading products. Please refresh the page.</div>';
-                document.getElementById('financeProducts').innerHTML = '<div class="loading">Error loading products. Please refresh the page.</div>';
-            }
-        }
-
-        function renderProducts(products, containerId) {
-            const container = document.getElementById(containerId);
-
-            if (products.length === 0) {
-                container.innerHTML = '<div class="loading">No templates available yet. Check back soon!</div>';
-                return;
-            }
-
-            container.innerHTML = products.map(product => {
-                const listing = product.listings && product.listings.length > 0 ? product.listings[0] : null;
-                const icon = getProductIcon(product.title);
-                const features = product.features.slice(0, 3); // Show first 3 features
-
-                return `
-                    <div class="product-card">
-                        <span class="badge ${product.niche}">${product.niche === 'business' ? 'Business' : 'Finance'}</span>
-                        <div class="product-icon">${icon}</div>
-                        <h3 class="product-title">${product.title}</h3>
-                        <p class="product-description">${truncateText(product.description, 120)}</p>
-                        <ul class="product-features">
-                            ${features.map(f => `<li>${f}</li>`).join('')}
-                        </ul>
-                        <div class="product-footer">
-                            <span class="price">$${product.suggested_price}</span>
-                            ${listing?.url ? `<a href="${listing.url}" class="buy-btn">Buy Now</a>` : '<span style="color: #999;">Coming Soon</span>'}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function getProductIcon(title) {
-            for (const [key, icon] of Object.entries(productIcons)) {
-                if (title.includes(key)) return icon;
-            }
-            return '📦'; // Default icon
-        }
-
-        function truncateText(text, length) {
-            if (text.length <= length) return text;
-            return text.substring(0, length) + '...';
-        }
-
         // Load data on page load
         loadStats();
-        loadProducts();
-
-        // Refresh every 2 minutes to show new products and stats
-        setInterval(() => {
-            loadStats();
-            loadProducts();
-        }, 120000);
     </script>
 </body>
 </html>

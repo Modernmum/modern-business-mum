@@ -472,6 +472,13 @@
         let allProducts = [];
         let currentFilter = 'all';
 
+        // Check URL parameters for filter
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlFilter = urlParams.get('filter');
+        if (urlFilter && (urlFilter === 'business' || urlFilter === 'finance')) {
+            currentFilter = urlFilter;
+        }
+
         // Load products from API
         async function loadProducts() {
             try {
@@ -480,6 +487,15 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 allProducts = await response.json();
+
+                // Update active filter button based on current filter
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.filter === currentFilter) {
+                        btn.classList.add('active');
+                    }
+                });
+
                 renderProducts();
             } catch (error) {
                 console.error('Error loading products:', error);
