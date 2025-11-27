@@ -37,10 +37,43 @@ export default async function handler(req, res) {
       .from('listings')
       .select('*', { count: 'exact', head: true });
 
+    // Fetch Fiverr messages
+    const { data: fiverrMessages, count: fiverrCount } = await supabase
+      .from('fiverr_messages')
+      .select('*', { count: 'exact' })
+      .order('responded_at', { ascending: false })
+      .limit(10);
+
+    // Fetch recent transactions
+    const { data: transactions } = await supabase
+      .from('transactions')
+      .select('*')
+      .order('transaction_at', { ascending: false })
+      .limit(10);
+
+    // Fetch system logs for automation status
+    const { data: recentLogs } = await supabase
+      .from('system_logs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    // Calculate revenue totals
+    const { data: allTransactions } = await supabase
+      .from('transactions')
+      .select('amount');
+
+    const totalRevenue = allTransactions?.reduce((sum, t) => sum + parseFloat(t.amount || 0), 0) || 0;
+
     res.status(200).json({
       products: products || [],
       opportunitiesCount: opportunitiesCount || 0,
-      listingsCount: listingsCount || 0
+      listingsCount: listingsCount || 0,
+      fiverrMessages: fiverrMessages || [],
+      fiverrCount: fiverrCount || 0,
+      transactions: transactions || [],
+      totalRevenue: totalRevenue,
+      recentLogs: recentLogs || []
     });
 
   } catch (error) {

@@ -335,6 +335,26 @@
         </div>
 
         <div class="products-section">
+            <h2>💬 Fiverr Messages & Auto-Responses</h2>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Buyer</th>
+                        <th>Inquiry</th>
+                        <th>AI Response</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="fiverrTable">
+                    <tr>
+                        <td colspan="5" class="loading">Loading Fiverr activity...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="products-section">
             <h2>📦 Products</h2>
             <table class="products-table">
                 <thead>
@@ -355,6 +375,13 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="products-section">
+            <h2>⚡ Recent Activity</h2>
+            <div id="activityFeed">
+                <div class="loading">Loading activity...</div>
+            </div>
+        </div>
     </div>
 
     <div class="refresh-btn" onclick="loadData()" title="Refresh Data">
@@ -374,7 +401,16 @@
                     throw new Error(`API error: ${response.status}`);
                 }
 
-                const { products, opportunitiesCount, listingsCount } = await response.json();
+                const {
+                    products,
+                    opportunitiesCount,
+                    listingsCount,
+                    fiverrMessages,
+                    fiverrCount,
+                    transactions,
+                    totalRevenue,
+                    recentLogs
+                } = await response.json();
 
                 // Update stats
                 document.getElementById('totalProducts').textContent = products.length;
@@ -382,15 +418,13 @@
                 document.getElementById('created').textContent = products.length;
                 document.getElementById('listed').textContent = listingsCount;
 
-                // Calculate totals
-                let totalRevenue = 0;
+                // Calculate totals from products
                 let totalSales = 0;
                 let totalPrice = 0;
 
                 products.forEach(product => {
                     if (product.listings && product.listings.length > 0) {
                         product.listings.forEach(listing => {
-                            totalRevenue += parseFloat(listing.revenue || 0);
                             totalSales += parseInt(listing.sales || 0);
                         });
                     }
@@ -399,9 +433,32 @@
 
                 const avgPrice = products.length > 0 ? (totalPrice / products.length).toFixed(2) : '0.00';
 
+                // Use totalRevenue from API (includes all transactions)
                 document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
                 document.getElementById('totalSales').textContent = totalSales;
                 document.getElementById('avgPrice').textContent = `$${avgPrice}`;
+
+                // Update Fiverr Messages table
+                const fiverrTable = document.getElementById('fiverrTable');
+                fiverrTable.innerHTML = '';
+
+                if (!fiverrMessages || fiverrMessages.length === 0) {
+                    fiverrTable.innerHTML = '<tr><td colspan="5" class="loading">No Fiverr messages yet. Messages will appear here when customers contact you.</td></tr>';
+                } else {
+                    fiverrMessages.forEach(msg => {
+                        const row = document.createElement('tr');
+                        const timeAgo = formatTimeAgo(new Date(msg.responded_at));
+
+                        row.innerHTML = `
+                            <td><strong>${msg.buyer_name}</strong></td>
+                            <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${msg.inquiry_text}">${msg.inquiry_text}</td>
+                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${msg.response_text}">${msg.response_text}</td>
+                            <td>${timeAgo}</td>
+                            <td><span class="badge ${msg.status}">${msg.status}</span></td>
+                        `;
+                        fiverrTable.appendChild(row);
+                    });
+                }
 
                 // Update products table
                 const tbody = document.getElementById('productsTable');
@@ -428,10 +485,87 @@
                     });
                 }
 
+                // Update Activity Feed
+                const activityFeed = document.getElementById('activityFeed');
+                activityFeed.innerHTML = '';
+
+                if (!recentLogs || recentLogs.length === 0) {
+                    activityFeed.innerHTML = '<div class="loading">No recent activity. Automation will log activity here.</div>';
+                } else {
+                    recentLogs.forEach(log => {
+                        const activityItem = document.createElement('div');
+                        activityItem.style.cssText = 'padding: 15px; border-bottom: 1px solid #e5e7eb;';
+
+                        const timeAgo = formatTimeAgo(new Date(log.created_at));
+                        const emoji = getAgentEmoji(log.agent);
+                        const statusColor = log.status === 'success' ? '#10b981' : log.status === 'error' ? '#ef4444' : '#f59e0b';
+
+                        activityItem.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <div>
+                                    <span style="font-size: 20px; margin-right: 8px;">${emoji}</span>
+                                    <strong>${log.agent}</strong> - ${log.action}
+                                    <div style="color: #666; font-size: 14px; margin-top: 5px;">${timeAgo}</div>
+                                </div>
+                                <span class="badge" style="background-color: ${statusColor}20; color: ${statusColor};">${log.status}</span>
+                            </div>
+                            ${log.details ? `<div style="margin-top: 8px; margin-left: 28px; color: #666; font-size: 13px;">${formatDetails(log.details)}</div>` : ''}
+                        `;
+                        activityFeed.appendChild(activityItem);
+                    });
+                }
+
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('productsTable').innerHTML = '<tr><td colspan="7" class="loading" style="color: red;">Error loading data. Check console.</td></tr>';
             }
+        }
+
+        // Helper function to format time ago
+        function formatTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+            if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+            if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
+
+            return date.toLocaleDateString();
+        }
+
+        // Helper function to get emoji for agent type
+        function getAgentEmoji(agent) {
+            const emojis = {
+                'scout': '🔍',
+                'creator': '🎨',
+                'executor': '🚀',
+                'fiverr': '💬',
+                'social': '📱',
+                'email': '📧',
+                'seo': '🔎',
+                'system': '⚙️'
+            };
+
+            const agentLower = agent.toLowerCase();
+            for (const [key, emoji] of Object.entries(emojis)) {
+                if (agentLower.includes(key)) return emoji;
+            }
+            return '🤖';
+        }
+
+        // Helper function to format log details
+        function formatDetails(details) {
+            if (typeof details === 'string') return details;
+            if (typeof details === 'object') {
+                const keys = Object.keys(details);
+                if (keys.length === 0) return '';
+
+                // Format first few key-value pairs
+                return keys.slice(0, 3)
+                    .map(key => `${key}: ${details[key]}`)
+                    .join(' • ');
+            }
+            return '';
         }
 
         // Load data on page load
