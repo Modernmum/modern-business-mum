@@ -21,6 +21,31 @@ const PORT = process.env.PUBLIC_PORT || 3001;
 // Serve static files from public directory
 app.use(express.static(join(__dirname, 'public')));
 
+// Clean URL routing - remove .html extensions
+app.get('/shop', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'shop.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/services', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'services.html'));
+});
+
+app.get('/privacy', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'privacy.html'));
+});
+
+app.get('/posts', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'posts.html'));
+});
+
+app.get('/custom-order', (req, res) => {
+  res.sendFile(join(__dirname, 'public', 'custom-order.html'));
+});
+
 // API endpoint for products
 app.get('/api/products', async (req, res) => {
   try {
