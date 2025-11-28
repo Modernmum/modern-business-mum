@@ -215,6 +215,29 @@
             background: #5568d3;
         }
 
+        .product-filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .product-filter-btn:hover {
+            background: #f3f4f6;
+            border-color: #667eea;
+        }
+
+        .product-filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -565,7 +588,14 @@
             </div>
 
             <div id="products" class="tab-content">
-                <h2 style="margin-bottom: 20px;">📦 Products & Listings</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">📦 Products & Listings</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="product-filter-btn active" data-filter="all" onclick="filterProducts('all')">All (<span id="countAll">0</span>)</button>
+                        <button class="product-filter-btn" data-filter="business" onclick="filterProducts('business')">Business (<span id="countBusiness">0</span>)</button>
+                        <button class="product-filter-btn" data-filter="finance" onclick="filterProducts('finance')">Finance (<span id="countFinance">0</span>)</button>
+                    </div>
+                </div>
                 <table class="products-table">
                     <thead>
                         <tr>
@@ -708,30 +738,18 @@
                     });
                 }
 
-                // Update products table
-                const tbody = document.getElementById('productsTable');
-                tbody.innerHTML = '';
+                // Store products globally for filtering
+                window.allProducts = products;
 
-                if (products.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="loading">No products yet. Run a cycle to create products!</td></tr>';
-                } else {
-                    products.forEach(product => {
-                        const listing = product.listings && product.listings.length > 0 ? product.listings[0] : null;
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><strong>${product.title}</strong></td>
-                            <td><span class="badge ${product.niche}">${product.niche}</span></td>
-                            <td class="price">$${product.suggested_price}</td>
-                            <td><span class="badge ${listing?.status || 'draft'}">${listing?.status || 'draft'}</span></td>
-                            <td>${listing?.sales || 0}</td>
-                            <td>$${listing?.revenue || '0.00'}</td>
-                            <td>
-                                ${listing?.url ? `<a href="${listing.url}" target="_blank" class="btn">View</a>` : '<span style="color: #999;">No link</span>'}
-                            </td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                }
+                // Update category counts
+                const businessCount = products.filter(p => p.niche === 'business').length;
+                const financeCount = products.filter(p => p.niche === 'finance').length;
+                document.getElementById('countAll').textContent = products.length;
+                document.getElementById('countBusiness').textContent = businessCount;
+                document.getElementById('countFinance').textContent = financeCount;
+
+                // Render products with current filter
+                renderProductsTable('all');
 
                 // Update Activity Feed
                 const activityFeed = document.getElementById('activityFeed');
@@ -859,6 +877,48 @@
             // Add active class to selected tab and button
             document.getElementById(tabName).classList.add('active');
             event.target.closest('.tab-button').classList.add('active');
+        }
+
+        // Filter products by category
+        function filterProducts(category) {
+            // Update button active states
+            document.querySelectorAll('.product-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+
+            // Render filtered products
+            renderProductsTable(category);
+        }
+
+        // Render products table with optional filter
+        function renderProductsTable(filter = 'all') {
+            const products = window.allProducts || [];
+
+            // Filter products based on category
+            let filteredProducts = products;
+            if (filter !== 'all') {
+                filteredProducts = products.filter(p => p.niche === filter);
+            }
+
+            const tbody = document.getElementById('productsTableBody');
+            if (!tbody) return;
+
+            if (filteredProducts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #999;">No products found in this category</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filteredProducts.map(product => `
+                <tr>
+                    <td style="font-weight: 500;">${product.title || 'Untitled'}</td>
+                    <td><span class="status-badge status-${product.status}">${product.status}</span></td>
+                    <td>$${product.suggested_price || '0'}</td>
+                    <td>${product.niche || 'N/A'}</td>
+                    <td>${product.listings?.length || 0} listing${product.listings?.length === 1 ? '' : 's'}</td>
+                    <td>${new Date(product.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
         }
 
         // Auto-refresh every 30 seconds (only if authenticated)

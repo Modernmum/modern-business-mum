@@ -1,13 +1,19 @@
 /**
  * SOCIAL MEDIA AUTO-POSTER AGENT
- * Posts to Reddit, Facebook, and LinkedIn using browser automation
+ * Posts to social media platforms using OFFICIAL APIs ONLY
+ *
+ * ✅ ENABLED: Reddit (via official API)
+ * ❌ DISABLED: Facebook (browser automation violates ToS)
+ * ❌ DISABLED: LinkedIn (browser automation violates ToS)
+ *
+ * COMPLIANCE: This script only uses official APIs to comply with platform Terms of Service
  */
 
-import { postToFacebookWithBrowser, postToLinkedInWithBrowser } from './puppeteer-poster.js';
 import { postProductToReddit } from './reddit-api-poster.js';
 import { getProducts, createListing } from '../lib/database.js';
 import { generateText } from '../lib/ai.js';
 import { createClient } from '@supabase/supabase-js';
+import { isPlatformEnabled } from '../config/social-platforms.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -74,100 +80,38 @@ const postToReddit = async (product) => {
 };
 
 /**
- * Post to Facebook
+ * FACEBOOK POSTING DISABLED
+ * Browser automation violates Facebook Terms of Service
+ * To post to Facebook legally, use Facebook Graph API with proper permissions
  */
 const postToFacebook = async (product) => {
-  console.log(`\n👥 Creating Facebook post for: ${product.title}`);
-
-  if (!process.env.FACEBOOK_EMAIL || !process.env.FACEBOOK_PASSWORD) {
-    console.log('  ⚠️  Facebook credentials not configured');
-    return { success: false, reason: 'no_credentials' };
-  }
-
-  try {
-    const postContent = await generatePlatformPost('facebook', product);
-
-    const { data: listings } = await supabase
-      .from('listings')
-      .select('*')
-      .eq('product_id', product.id)
-      .eq('platform', 'stripe')
-      .single();
-
-    const buyLink = listings?.url || '#';
-
-    // Add link to post
-    postContent.content += `\n\nLearn more: ${buyLink}`;
-
-    const result = await postToFacebookWithBrowser(postContent);
-
-    if (result.success) {
-      await createListing({
-        product_id: product.id,
-        platform: 'facebook',
-        url: result.url || '#',
-        status: 'published',
-      });
-    }
-
-    return result;
-
-  } catch (error) {
-    console.error(`  ❌ Error posting to Facebook:`, error.message);
-    return { success: false, error: error.message };
-  }
+  console.log(`\n👥 Facebook posting: DISABLED (violates ToS)`);
+  console.log('   Browser automation is against Facebook Terms of Service');
+  console.log('   To post to Facebook, use the official Facebook Graph API');
+  return { success: false, reason: 'tos_violation_disabled' };
 };
 
 /**
- * Post to LinkedIn
+ * LINKEDIN POSTING DISABLED
+ * Browser automation violates LinkedIn Terms of Service
+ * To post to LinkedIn legally, use LinkedIn API with proper permissions
  */
 const postToLinkedIn = async (product) => {
-  console.log(`\n💼 Creating LinkedIn post for: ${product.title}`);
-
-  if (!process.env.LINKEDIN_EMAIL || !process.env.LINKEDIN_PASSWORD) {
-    console.log('  ⚠️  LinkedIn credentials not configured');
-    return { success: false, reason: 'no_credentials' };
-  }
-
-  try {
-    const postContent = await generatePlatformPost('linkedin', product);
-
-    const { data: listings } = await supabase
-      .from('listings')
-      .select('*')
-      .eq('product_id', product.id)
-      .eq('platform', 'stripe')
-      .single();
-
-    const buyLink = listings?.url || '#';
-
-    // Add hashtags and link
-    postContent.content += `\n\n🔗 ${buyLink}\n\n#Notion #Productivity #${product.niche === 'business' ? 'Business #Entrepreneurship' : 'Finance #PersonalFinance'}`;
-
-    const result = await postToLinkedInWithBrowser(postContent);
-
-    if (result.success) {
-      await createListing({
-        product_id: product.id,
-        platform: 'linkedin',
-        url: result.url || '#',
-        status: 'published',
-      });
-    }
-
-    return result;
-
-  } catch (error) {
-    console.error(`  ❌ Error posting to LinkedIn:`, error.message);
-    return { success: false, error: error.message };
-  }
+  console.log(`\n💼 LinkedIn posting: DISABLED (violates ToS)`);
+  console.log('   Browser automation is against LinkedIn Terms of Service');
+  console.log('   To post to LinkedIn, use the official LinkedIn API');
+  return { success: false, reason: 'tos_violation_disabled' };
 };
 
 /**
- * Main execution - post to all social media
+ * Main execution - post to social media (ONLY OFFICIAL APIs)
  */
 const runSocialMediaCampaign = async () => {
   console.log('\n🚀 SOCIAL MEDIA AUTO-POSTER STARTING...\n');
+  console.log('✅ COMPLIANCE MODE: Using official APIs only\n');
+  console.log('   ✅ Reddit: Official API');
+  console.log('   ❌ Facebook: DISABLED (ToS violation)');
+  console.log('   ❌ LinkedIn: DISABLED (ToS violation)\n');
 
   const products = await getProducts();
   const productsToPost = products.slice(0, 3); // Post 3 products per run
@@ -183,21 +127,19 @@ const runSocialMediaCampaign = async () => {
   for (const product of productsToPost) {
     console.log(`\n📌 Processing: ${product.title}\n`);
 
-    // Post to each platform (sequential to avoid rate limits)
-    if (process.env.REDDIT_USERNAME) {
+    // ONLY post to Reddit using official API (compliant)
+    if (isPlatformEnabled('reddit') && process.env.REDDIT_USERNAME) {
       const redditResults = await postToReddit(product);
       results.reddit.push(...redditResults);
     }
 
-    if (process.env.FACEBOOK_EMAIL) {
-      const facebookResult = await postToFacebook(product);
-      results.facebook.push(facebookResult);
-    }
+    // Facebook and LinkedIn are DISABLED (ToS violations)
+    // These log warnings and return immediately
+    const facebookResult = await postToFacebook(product);
+    results.facebook.push(facebookResult);
 
-    if (process.env.LINKEDIN_EMAIL) {
-      const linkedinResult = await postToLinkedIn(product);
-      results.linkedin.push(linkedinResult);
-    }
+    const linkedinResult = await postToLinkedIn(product);
+    results.linkedin.push(linkedinResult);
 
     // Delay between products
     await new Promise(resolve => setTimeout(resolve, 60000)); // 1 minute delay
@@ -207,9 +149,9 @@ const runSocialMediaCampaign = async () => {
   console.log('\n' + '='.repeat(80));
   console.log('\n📊 SOCIAL MEDIA CAMPAIGN SUMMARY:\n');
 
-  console.log(`Reddit: ${results.reddit.filter(r => r.success).length}/${results.reddit.length} successful`);
-  console.log(`Facebook: ${results.facebook.filter(r => r.success).length}/${results.facebook.length} successful`);
-  console.log(`LinkedIn: ${results.linkedin.filter(r => r.success).length}/${results.linkedin.length} successful`);
+  console.log(`✅ Reddit: ${results.reddit.filter(r => r.success).length}/${results.reddit.length} successful`);
+  console.log(`❌ Facebook: DISABLED (platform ToS violation)`);
+  console.log(`❌ LinkedIn: DISABLED (platform ToS violation)`);
 
   console.log('\n' + '='.repeat(80));
 

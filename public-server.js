@@ -90,6 +90,66 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
+// API endpoint for comprehensive dashboard data
+app.get('/api/dashboard-data', async (req, res) => {
+  try {
+    const { supabase } = await import('./lib/database.js');
+
+    // Fetch all data in parallel
+    const [
+      { data: opportunities },
+      { data: products },
+      { data: listings },
+      { data: sales },
+      { data: logs }
+    ] = await Promise.all([
+      supabase.from('opportunities').select('*').order('created_at', { ascending: false }),
+      supabase.from('products').select('*').order('created_at', { ascending: false }),
+      supabase.from('listings').select('*').order('created_at', { ascending: false }),
+      supabase.from('sales').select('*').order('created_at', { ascending: false }),
+      supabase.from('system_logs').select('*').order('created_at', { ascending: false }).limit(50)
+    ]);
+
+    // Calculate stats
+    const totalRevenue = sales?.reduce((sum, sale) => sum + (sale.amount || 0), 0) || 0;
+    const totalSales = sales?.length || 0;
+
+    // Group products by status
+    const productsByStatus = {};
+    products?.forEach(p => {
+      productsByStatus[p.status] = (productsByStatus[p.status] || 0) + 1;
+    });
+
+    // Group listings by platform
+    const listingsByPlatform = {};
+    listings?.forEach(l => {
+      listingsByPlatform[l.platform] = (listingsByPlatform[l.platform] || 0) + 1;
+    });
+
+    res.json({
+      stats: {
+        opportunities: opportunities?.length || 0,
+        products: products?.length || 0,
+        listings: listings?.length || 0,
+        sales: totalSales,
+        revenue: totalRevenue
+      },
+      opportunities: opportunities?.slice(0, 20) || [],
+      products: products?.slice(0, 20) || [],
+      listings: listings?.slice(0, 20) || [],
+      sales: sales || [],
+      logs: logs || [],
+      breakdown: {
+        productsByStatus,
+        listingsByPlatform
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching dashboard data:', error);
+    res.status(500).json({ error: 'Failed to load dashboard data' });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`\n🌐 Public Website Server Running`);
