@@ -2,6 +2,17 @@
  * LEGAL TRAFFIC ENGINE
  * 100% compliant automated traffic generation
  * Only uses official APIs - no TOS violations
+ *
+ * COMPLIANCE PRINCIPLES:
+ * 1. Official APIs only (Twitter, Reddit, Pinterest, YouTube)
+ * 2. Clear bot disclosure (user agents, bios)
+ * 3. Respect rate limits (enforced by platform APIs)
+ * 4. Value-focused content (no spam)
+ * 5. Follow subreddit/community rules
+ * 6. No mass follows, unsolicited DMs, or growth hacking
+ * 7. Transparent automated behavior
+ *
+ * See AUTOMATION-COMPLIANCE.md for full compliance guide
  */
 
 import { TwitterApi } from 'twitter-api-v2';
