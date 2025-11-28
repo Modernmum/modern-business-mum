@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fractional COO & Business Strategist | Modern Business Mum</title>
+    <meta name="description" content="Experienced fractional COO and business strategist specializing in operations optimization, Notion-based systems, and scalable business processes. $150-300/hour.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fractional COO & Business Strategist Services">
+    <meta property="og:description" content="Scale your business with expert operations leadership. Specializing in systems, automation, and strategic planning.">
+    <meta property="og:type" content="website">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            text-align: center;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .service-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .service-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .stats {
+            background: #f7fafc;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-top: 0.5rem;
+        }
+
+        .pricing {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+
+        .pricing-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .pricing-card:hover {
+            border-color: #667eea;
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .pricing-card .period {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: #2d3748;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #cbd5e0;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Fractional COO & Business Strategist</h1>
+        <p class="subtitle">Scale your business without the full-time executive cost</p>
+        <div class="cta-buttons">
+            <a href="mailto:geminimummy5@gmail.com?subject=Fractional%20COO%20Consultation" class="btn btn-primary">Book Consultation</a>
+            <a href="#services" class="btn btn-secondary">View Services</a>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stats-grid">
+            <div class="stat">
+                <span class="stat-number">100+</span>
+                <span class="stat-label">Business Systems Built</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">$150-300</span>
+                <span class="stat-label">Hourly Rate</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section" id="services">
+            <h2>Services</h2>
+            <p>I help growing businesses scale through operational excellence, strategic planning, and automated systems.</p>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Operations Strategy</h3>
+                    <ul>
+                        <li>Process optimization & documentation</li>
+                        <li>Team structure & workflows</li>
+                        <li>KPI development & tracking</li>
+                        <li>Scalability planning</li>
+                        <li>Efficiency audits</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <h3>Business Systems</h3>
+                    <ul>
+                        <li>Notion workspace setup & customization</li>
+                        <li>CRM implementation</li>
+                        <li>Project management systems</li>
+                        <li>Automation & integration</li>
+                        <li>Team onboarding systems</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <h3>Strategic Planning</h3>
+                    <ul>
+                        <li>Growth roadmap development</li>
+                        <li>Market analysis & positioning</li>
+                        <li>Revenue optimization</li>
+                        <li>Product/service strategy</li>
+                        <li>Quarterly planning & OKRs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Who I Work With</h2>
+            <p>I specialize in helping 7-figure businesses that are:</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Growing Fast</h3>
+                    <p>Your team is expanding but processes are breaking. You need systems that scale.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Operationally Stuck</h3>
+                    <p>You're the bottleneck. Every decision runs through you. You need to delegate effectively.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Planning to Scale</h3>
+                    <p>You're preparing for the next level but need strategic operations expertise to get there.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pricing">
+        <div class="container">
+            <h2>Investment</h2>
+            <p>Flexible engagement models to match your needs</p>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Project-Based</h3>
+                    <div class="price">$200<span class="period">/hour</span></div>
+                    <ul>
+                        <li>Specific deliverables</li>
+                        <li>System implementation</li>
+                        <li>Process documentation</li>
+                        <li>One-time optimization</li>
+                        <li>3-month minimum</li>
+                    </ul>
+                    <a href="mailto:geminimummy5@gmail.com?subject=Project-Based%20Engagement" class="btn btn-secondary">Get Started</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Monthly Retainer</h3>
+                    <div class="price">$5k-15k<span class="period">/month</span></div>
+                    <ul>
+                        <li>Ongoing strategic support</li>
+                        <li>Weekly check-ins</li>
+                        <li>Process improvement</li>
+                        <li>Team training</li>
+                        <li>Priority access</li>
+                    </ul>
+                    <a href="mailto:geminimummy5@gmail.com?subject=Monthly%20Retainer%20Inquiry" class="btn btn-primary">Most Popular</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Consulting</h3>
+                    <div class="price">$300<span class="period">/hour</span></div>
+                    <ul>
+                        <li>Strategic advisory</li>
+                        <li>Executive coaching</li>
+                        <li>Crisis management</li>
+                        <li>Board presentations</li>
+                        <li>Ad-hoc support</li>
+                    </ul>
+                    <a href="mailto:geminimummy5@gmail.com?subject=Consulting%20Services" class="btn btn-secondary">Book Session</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>Ready to Scale Your Operations?</h2>
+        <p>Book a free 30-minute strategy call to discuss your business challenges</p>
+        <a href="mailto:geminimummy5@gmail.com?subject=Strategy%20Call%20Request&body=Hi,%0D%0A%0D%0AI'd%20like%20to%20schedule%20a%20strategy%20call%20to%20discuss:%0D%0A%0D%0ABusiness%20Name:%0D%0ACurrent%20Revenue:%0D%0ATeam%20Size:%0D%0ABiggest%20Challenge:%0D%0A%0D%0AThanks!" class="btn btn-primary">Book Free Call</a>
+    </div>
+
+    <footer style="background: #1a202c; color: #cbd5e0; padding: 2rem; text-align: center;">
+        <p>&copy; 2024 Modern Business Mum | <a href="/shop" style="color: #667eea;">Shop Templates</a> | <a href="/services" style="color: #667eea;">Services</a></p>
+    </footer>
+</body>
+</html>
