@@ -34,18 +34,18 @@ export const CONFIG = {
   // Agent behavior settings
   agents: {
     scout: {
-      opportunitiesPerCycle: 10, // How many opportunities to discover per run
+      opportunitiesPerCycle: 2, // REDUCED: Focus on marketing existing products
       trendScoreThreshold: 40, // Minimum trend score to consider (0-100)
       priorityNiches: ['business', 'finance'], // Niches to focus on
     },
     creator: {
-      maxCreationsPerCycle: 10, // How many products to create per run
+      maxCreationsPerCycle: 2, // REDUCED: Slow down product creation, focus on marketing
       minFeaturesCount: 5, // Minimum features per template
       maxFeaturesCount: 12, // Maximum features per template
       includeUseCases: true, // Generate use cases for each template
     },
     executor: {
-      maxListingsPerCycle: 10, // How many products to list per run
+      maxListingsPerCycle: 10, // Keep listing rate high to clear backlog
       defaultPlatform: 'stripe', // Primary selling platform
       generateInstructions: true, // Generate manual listing instructions
       autoPublish: true, // Auto-publish to Stripe
