@@ -18,7 +18,7 @@ CREATE OR REPLACE VIEW traffic_analytics AS
 SELECT
   product_id,
   COUNT(*) as total_campaigns,
-  array_agg(DISTINCT unnest(channels_used)) as all_channels_used,
+  ARRAY(SELECT DISTINCT unnest(array_agg(channels_used))) as all_channels_used,
   MAX(created_at) as last_campaign_date
 FROM traffic_campaigns
 GROUP BY product_id;
