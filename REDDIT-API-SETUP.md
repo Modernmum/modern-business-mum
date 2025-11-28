@@ -7,9 +7,9 @@ To enable automated Reddit posting via API (much more reliable than browser auto
 1. Go to https://www.reddit.com/prefs/apps
 2. Scroll to bottom and click "create another app..."
 3. Fill in:
-   - **name:** Template Studio Bot
+   - **name:** Modern Business Mum Bot
    - **type:** Select "script"
-   - **description:** Automated posting for Template Studio
+   - **description:** Automated posting for Modern Business Mum
    - **about url:** (leave blank)
    - **redirect uri:** http://localhost:8080
 4. Click "create app"

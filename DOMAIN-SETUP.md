@@ -89,7 +89,7 @@ dig www.modernbusinessmum.com
 
 Or visit: https://modernbusinessmum.com
 
-You should see your Template Studio storefront!
+You should see your Modern Business Mum storefront!
 
 ## Troubleshooting
 

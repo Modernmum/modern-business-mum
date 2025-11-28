@@ -26,7 +26,7 @@ const initReddit = () => {
   }
 
   return new snoowrap({
-    userAgent: 'Template Studio Bot v1.0.0',
+    userAgent: 'Modern Business Mum Bot v1.0.0',
     clientId: process.env.REDDIT_CLIENT_ID,
     clientSecret: process.env.REDDIT_CLIENT_SECRET,
     username: process.env.REDDIT_USERNAME,
