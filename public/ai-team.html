@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your $200k Operations Team for $500/Month | Modern Business Mum</title>
+    <meta name="description" content="Stop hiring expensive operations staff. Get an AI-powered Chief of Staff, Project Manager, and Analyst—plus monthly strategy calls with a real COO.">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            background: #ffffff;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect fill="rgba(255,255,255,0.05)" width="50" height="50"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800; line-height: 1.1; }
+        .hero .subtitle { font-size: 1.5rem; margin-bottom: 2rem; opacity: 0.95; }
+        .hero .price { font-size: 1.2rem; margin-bottom: 2rem; }
+        .hero .price .old-price { text-decoration: line-through; opacity: 0.7; }
+        .hero .price .new-price { font-size: 2rem; font-weight: 700; color: #ffd700; }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1.5rem 3rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .social-proof {
+            background: #f7fafc;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .social-proof p {
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section { margin-bottom: 4rem; }
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #1a202c;
+        }
+
+        .section p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .team-member .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-member h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .team-member .role {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .team-member ul {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+        }
+
+        .team-member li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        .team-member li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .comparison {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 4rem 2rem;
+        }
+
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 1.5rem;
+            text-align: left;
+            font-size: 1.2rem;
+        }
+
+        .comparison-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .traditional {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .comparison-table .ai-team {
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .pricing-section {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .pricing-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .pricing-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card .price-tag {
+            font-size: 4rem;
+            font-weight: 800;
+            margin: 1rem 0;
+        }
+
+        .pricing-card .price-tag span {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .pricing-card ul {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .pricing-card li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .pricing-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .guarantee {
+            background: #fef5e7;
+            border: 2px solid #f39c12;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .guarantee h4 {
+            color: #f39c12;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .guarantee p {
+            color: #4a5568;
+        }
+
+        .faq {
+            background: #f7fafc;
+            padding: 4rem 2rem;
+        }
+
+        .faq-item {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .faq-item h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: #4a5568;
+            text-align: left;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            .section h2 { font-size: 2rem; }
+            .comparison-table { font-size: 0.9rem; }
+            .pricing-card .price-tag { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Your $200k Operations Team<br>for $500/Month</h1>
+            <p class="subtitle">Stop hiring expensive operations staff. Get an AI-powered Chief of Staff, Project Manager, and Analyst—plus monthly strategy calls with an experienced COO.</p>
+            <div class="price">
+                <span class="old-price">Traditional: $200,000/year</span><br>
+                <span class="new-price">$500/month</span>
+            </div>
+            <a href="#pricing" class="cta-button">Start Your 30-Day Trial →</a>
+        </div>
+    </div>
+
+    <div class="social-proof">
+        <p>💎 Trusted by growing online businesses • 🚀 Setup in 48 hours • ⚡ Cancel anytime</p>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Meet Your AI Operations Team</h2>
+            <p>Every member works 24/7, never takes vacation, and costs less than a single junior hire.</p>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="icon">🧠</div>
+                    <h3>AI Chief of Staff</h3>
+                    <div class="role">Your Strategic Partner</div>
+                    <ul>
+                        <li>Manages your Notion workspace</li>
+                        <li>Organizes all company data</li>
+                        <li>Maintains SOPs and processes</li>
+                        <li>Answers questions instantly</li>
+                        <li>Never forgets anything</li>
+                    </ul>
+                </div>
+
+                <div class="team-member">
+                    <div class="icon">📊</div>
+                    <h3>AI Project Manager</h3>
+                    <div class="role">Execution Master</div>
+                    <ul>
+                        <li>Tracks all active projects</li>
+                        <li>Sends automatic reminders</li>
+                        <li>Identifies blockers early</li>
+                        <li>Updates stakeholders daily</li>
+                        <li>Keeps everything on schedule</li>
+                    </ul>
+                </div>
+
+                <div class="team-member">
+                    <div class="icon">📈</div>
+                    <h3>AI Business Analyst</h3>
+                    <div class="role">Data Intelligence</div>
+                    <ul>
+                        <li>Weekly performance reports</li>
+                        <li>Identifies trends & patterns</li>
+                        <li>Highlights opportunities</li>
+                        <li>Predicts potential issues</li>
+                        <li>Data-driven recommendations</li>
+                    </ul>
+                </div>
+
+                <div class="team-member">
+                    <div class="icon">👤</div>
+                    <h3>Human COO</h3>
+                    <div class="role">Strategic Leadership</div>
+                    <ul>
+                        <li>Monthly strategy calls</li>
+                        <li>Custom process design</li>
+                        <li>Team training & onboarding</li>
+                        <li>Crisis management</li>
+                        <li>10+ years operations experience</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="comparison">
+        <div class="container">
+            <h2>Traditional Team vs AI Ops Team</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Traditional Cost</th>
+                            <th>With AI Ops Team</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Chief of Staff</strong></td>
+                            <td class="traditional">$120k/year</td>
+                            <td class="ai-team">Included</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Project Manager</strong></td>
+                            <td class="traditional">$80k/year</td>
+                            <td class="ai-team">Included</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Business Analyst</strong></td>
+                            <td class="traditional">$75k/year</td>
+                            <td class="ai-team">Included</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fractional COO</strong></td>
+                            <td class="traditional">$180/hour</td>
+                            <td class="ai-team">Included</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Onboarding Time</strong></td>
+                            <td class="traditional">3-6 months</td>
+                            <td class="ai-team">48 hours</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Working Hours</strong></td>
+                            <td class="traditional">40 hours/week</td>
+                            <td class="ai-team">24/7/365</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Annual Cost</strong></td>
+                            <td class="traditional">$275,000+</td>
+                            <td class="ai-team">$6,000/year</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="pricing-section" id="pricing">
+        <div class="container">
+            <h2>Simple, Transparent Pricing</h2>
+            <p>One price. Everything included. No hidden fees.</p>
+
+            <div class="pricing-card">
+                <h3>AI Operations Team</h3>
+                <div class="price-tag">$500<span>/month</span></div>
+
+                <ul>
+                    <li>AI Chief of Staff (24/7)</li>
+                    <li>AI Project Manager (24/7)</li>
+                    <li>AI Business Analyst (24/7)</li>
+                    <li>Monthly COO Strategy Call</li>
+                    <li>Custom Notion Workspace Setup</li>
+                    <li>Unlimited Team Members</li>
+                    <li>Priority Email Support</li>
+                    <li>Weekly Performance Reports</li>
+                </ul>
+
+                <a href="mailto:geminimummy5@gmail.com?subject=AI%20Operations%20Team%20-%20Start%20Trial&body=Hi!%0D%0A%0D%0AI'd%20like%20to%20start%20my%2030-day%20trial%20of%20the%20AI%20Operations%20Team.%0D%0A%0D%0ABusiness%20Name:%0D%0ACurrent%20Monthly%20Revenue:%0D%0ATeam%20Size:%0D%0ABiggest%20Operations%20Challenge:%0D%0A%0D%0AThanks!" class="cta-button">Start 30-Day Trial</a>
+
+                <div class="guarantee">
+                    <h4>🛡️ 30-Day Money-Back Guarantee</h4>
+                    <p>If you don't save at least 10 hours in your first month, we'll refund you completely.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h4>How is this different from just using AI tools myself?</h4>
+                <p>We've spent hundreds of hours building, testing, and refining these AI agents specifically for operations management. You get proven systems that work, plus 10+ years of COO expertise guiding the strategy. No trial and error, no wasted time.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>Will this work for my industry?</h4>
+                <p>Yes! We've worked with online businesses across e-commerce, SaaS, agencies, coaching, and consulting. The AI agents adapt to your specific workflows and terminology within 48 hours.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>What if my team doesn't use Notion?</h4>
+                <p>Most teams adopt Notion within days because it's that much better with AI automation. But we can integrate with your existing tools (Slack, Asana, ClickUp, etc.) if needed.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>How much time will this actually save me?</h4>
+                <p>Our average client saves 15-20 hours per week on operations tasks. That's 60-80 hours per month you can spend on revenue-generating activities instead of administrative work.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>Can I cancel anytime?</h4>
+                <p>Absolutely. No contracts, no commitments. Cancel anytime with one email. You keep everything we've built for you.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="final-cta">
+        <h2>Ready to 10x Your Operations?</h2>
+        <p>Join the businesses that stopped hiring and started scaling.</p>
+        <a href="mailto:geminimummy5@gmail.com?subject=AI%20Operations%20Team%20-%20Start%20Trial&body=Hi!%0D%0A%0D%0AI'd%20like%20to%20start%20my%2030-day%20trial%20of%20the%20AI%20Operations%20Team.%0D%0A%0D%0ABusiness%20Name:%0D%0ACurrent%20Monthly%20Revenue:%0D%0ATeam%20Size:%0D%0ABiggest%20Operations%20Challenge:%0D%0A%0D%0AThanks!" class="cta-button">Start Your 30-Day Trial →</a>
+        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">💳 No credit card required for trial</p>
+    </div>
+
+    <footer style="background: #1a202c; color: #cbd5e0; padding: 2rem; text-align: center;">
+        <p>&copy; 2025 Modern Business Mum | <a href="/" style="color: #667eea;">Home</a> | <a href="/services/fractional-coo.html" style="color: #667eea;">Fractional COO</a></p>
+    </footer>
+</body>
+</html>

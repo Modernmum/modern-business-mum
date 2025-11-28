@@ -2,7 +2,7 @@
 
 ## Step 1: Add Domain in Vercel
 
-1. Go to https://vercel.com/maggie-forbes-strategies/modern-business-mum
+1. Go to https://vercel.com/modern-business-mum
 2. Click **Settings** (top navigation)
 3. Click **Domains** (left sidebar)
 4. In the "Add Domain" field, enter: `modernbusinessmum.com`

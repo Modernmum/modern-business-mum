@@ -117,13 +117,11 @@ bash STOP-EMPIRE.sh && bash START-EMPIRE.sh
 - **Automation:** 95% automated
 - **Year 1 Goal:** $50-100k revenue
 
-### Maggie Forbes Strategies
-- **Revenue Model:** High-end consulting ($50k-200k/year per client)
-- **Target:** $3M+ revenue companies
+### Modern Business Mum - Premium Services
+- **Revenue Model:** Fractional COO services ($150-300/hour)
+- **Target:** Growing businesses needing operations leadership
 - **Automation:** AI-assisted, high-touch delivery
-- **Year 1 Goal:** 3-6 clients = $300-600k revenue
-
-**IMPORTANT:** These brands are completely separate. No cross-promotion.
+- **Year 1 Goal:** Build reputation and client base
 
 ## The 5-Year Vision
 
@@ -168,7 +166,7 @@ Your job is no longer to DO the work. Your job is to:
 1. Monitor the systems
 2. Fix bottlenecks (like social posting)
 3. Make strategic decisions
-4. Close high-value deals (Maggie Forbes)
+4. Close high-value consulting deals
 5. Build the next layer (Empire OS)
 
 ## The Automation Advantage
