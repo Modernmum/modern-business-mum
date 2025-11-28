@@ -42,13 +42,13 @@ app.get('/custom-order', (req, res) => {
   res.sendFile(join(__dirname, 'public', 'custom-order.html'));
 });
 
-// Dashboard is NOT public - it's only accessible locally for system monitoring
+// Dashboard route
 app.get('/dashboard', (req, res) => {
-  res.sendFile(join(__dirname, 'private', 'dashboard.html'));
+  res.sendFile(join(__dirname, 'public', 'dashboard.html'));
 });
 
 app.get('/dashboard.html', (req, res) => {
-  res.sendFile(join(__dirname, 'private', 'dashboard.html'));
+  res.sendFile(join(__dirname, 'public', 'dashboard.html'));
 });
 
 // API endpoint for products

@@ -901,24 +901,30 @@
                 filteredProducts = products.filter(p => p.niche === filter);
             }
 
-            const tbody = document.getElementById('productsTableBody');
+            const tbody = document.getElementById('productsTable');
             if (!tbody) return;
 
             if (filteredProducts.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #999;">No products found in this category</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #999;">No products found in this category</td></tr>';
                 return;
             }
 
-            tbody.innerHTML = filteredProducts.map(product => `
-                <tr>
-                    <td style="font-weight: 500;">${product.title || 'Untitled'}</td>
-                    <td><span class="status-badge status-${product.status}">${product.status}</span></td>
-                    <td>$${product.suggested_price || '0'}</td>
-                    <td>${product.niche || 'N/A'}</td>
-                    <td>${product.listings?.length || 0} listing${product.listings?.length === 1 ? '' : 's'}</td>
-                    <td>${new Date(product.created_at).toLocaleDateString()}</td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = filteredProducts.map(product => {
+                const listing = product.listings && product.listings.length > 0 ? product.listings[0] : null;
+                return `
+                    <tr>
+                        <td><strong>${product.title || 'Untitled'}</strong></td>
+                        <td><span class="badge ${product.niche || 'business'}">${product.niche || 'N/A'}</span></td>
+                        <td class="price">$${product.suggested_price || '0'}</td>
+                        <td><span class="badge ${listing?.status || 'draft'}">${listing?.status || 'draft'}</span></td>
+                        <td>${listing?.sales || 0}</td>
+                        <td>$${listing?.revenue || '0.00'}</td>
+                        <td>
+                            ${listing?.url ? `<a href="${listing.url}" target="_blank" class="btn">View</a>` : '<span style="color: #999;">No link</span>'}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         // Auto-refresh every 30 seconds (only if authenticated)
